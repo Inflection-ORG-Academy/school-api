@@ -1,0 +1,11 @@
+{
+  "name": "school-api",
+  "version": "0.1.0",
+  "description": "school api",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "author": "inflection-class",
+  "license": "ISC"
+}
