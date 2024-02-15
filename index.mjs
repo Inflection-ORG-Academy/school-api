@@ -1,9 +1,15 @@
 import express from 'express'
+import dotenv from 'dotenv'
+
+dotenv.config({
+  path: "./.env"
+})
+
 import pg from 'pg'
 const app = express()
 const port = 3000
 
-const pgClient = new pg.Client("postgres://postgres.hshmcrkvnblxhwzlfqlz:GCtIKNV0w5IahNQJ@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres")
+const pgClient = new pg.Client(process.env.DB_URL)
 
 app.get('/', async (req, res) => {
   res.json({ message: "hello" })
