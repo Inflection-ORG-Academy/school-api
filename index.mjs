@@ -1,15 +1,12 @@
-import dotenv from 'dotenv'
-dotenv.config({
-  path: "./.env"
-})
-import express from 'express'
+import "./config.mjs"
 import { pgClient } from './database.mjs'
+import express from 'express'
+const app = express()
 import { errorCapture } from './error.mjs'
 import { studentRouter } from './student.mjs'
 import { admissionRouter } from './admission.mjs'
 import { feesRouter } from './fees.mjs'
 import { attendanceRouter } from './attendance.mjs'
-const app = express()
 
 app.get('/', errorCapture((req, res) => {
   res.json({ message: "server is alive" })
