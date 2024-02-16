@@ -7,10 +7,10 @@ import { studentRouter } from './student.mjs'
 import { admissionRouter } from './admission.mjs'
 import { feesRouter } from './fees.mjs'
 import { attendanceRouter } from './attendance.mjs'
+import morgan from "morgan"
 
-app.get('/', errorCapture((req, res) => {
-  res.json({ message: "server is alive" })
-}))
+// global middleware
+app.use(morgan(":method :url :response-time :status"))
 
 app.use("/students", studentRouter)
 app.use("/admissions", admissionRouter)
