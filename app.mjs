@@ -6,9 +6,12 @@ import { admissionRouter } from './routers/admission.mjs'
 import { feesRouter } from './routers/fees.mjs'
 import { attendanceRouter } from './routers/attendance.mjs'
 import morgan from "morgan"
+import bodyParser from "body-parser"
 
 // global middleware
 app.use(morgan(":method :url :response-time :status"))
+
+app.use(bodyParser.json())
 
 app.use("/students", studentRouter)
 app.use("/admissions", admissionRouter)
