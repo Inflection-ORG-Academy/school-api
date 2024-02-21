@@ -25,4 +25,14 @@ studentRouter.post('/', errorCapture(async (req, res) => {
   }
 }))
 
+// TODO:
+studentRouter.patch('/:student_id', errorCapture(async (req, res) => {
+  res.json({ query: req.query, params: req.params })
+}))
+
+// TODO:
+studentRouter.delete('/:student_id', errorCapture(async (req, res) => {
+  res.json({ params: req.params })
+}))
+
 export { studentRouter }
