@@ -15,8 +15,10 @@ const errorCapture = (fn) => {
 
 class CustomError extends Error {
   constructor(err, code, message) {
-    super(err.message);
-    this.stack = err.stack
+    super(err?.message);
+    if (err) {
+      this.stack = err.stack
+    }
     this.statusCode = code
     this.productionMessage = message
   }
