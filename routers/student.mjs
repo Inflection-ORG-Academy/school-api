@@ -1,11 +1,12 @@
 import express from "express"
 import { errorCapture } from "./error.mjs"
 import { pgClient } from "../database.mjs"
-import { auth } from "../middleware/auth.mjs"
+import { authentication, clerkAuthorization } from "../middleware/auth.mjs"
 
 const studentRouter = express.Router()
 
-studentRouter.use(auth)
+studentRouter.use(authentication)
+studentRouter.use(clerkAuthorization)
 
 studentRouter.get('/', errorCapture(async (req, res) => {
   const data = await pgClient.query('SELECT * from students ORDER BY id DESC')
@@ -13,7 +14,6 @@ studentRouter.get('/', errorCapture(async (req, res) => {
 }))
 
 studentRouter.post('/', errorCapture(async (req, res) => {
-  console.log(req.employee)
   const { name, father_name, phone } = req.body
   const data = await pgClient.query(`INSERT INTO students (name, father_name, phone, created_by) VALUES ('${name}', '${father_name}', '${phone}', '${req.employee.id}');`)
   if (data.rowCount === 1) {
