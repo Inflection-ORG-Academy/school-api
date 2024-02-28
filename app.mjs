@@ -1,6 +1,6 @@
 import express from 'express'
 const app = express()
-import { errorCapture } from './routers/error.mjs'
+import { errorCapture, errorController } from './routers/error.mjs'
 import { employeeRouter } from './routers/employee.mjs'
 import { studentRouter } from './routers/student.mjs'
 import { admissionRouter } from './routers/admission.mjs'
@@ -23,5 +23,7 @@ app.use("/attendances", attendanceRouter)
 app.all('*', errorCapture(async (req, res) => {
   throw Error("route not exists")
 }))
+
+app.use(errorController)
 
 export { app }
