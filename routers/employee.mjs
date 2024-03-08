@@ -2,7 +2,9 @@ import express from "express"
 import { randomBytes } from "crypto";
 import * as path from 'path';
 import { CustomError, errorCapture } from "./error.mjs"
-// import { pgClient } from "../database.mjs"
+import { db } from "../database.mjs"
+import { eq } from 'drizzle-orm';
+import { Employee } from "../db/models/employee.mjs"
 import jwt from "jsonwebtoken"
 import { upload } from "../multer.mjs"
 import { authentication } from "../middleware/auth.mjs"
@@ -13,8 +15,8 @@ const employeeRouter = express.Router()
 
 employeeRouter.post("/login", errorCapture(async (req, res, next) => {
   const { email, pass } = req.body
-  // const data = await pgClient.query(`SELECT * FROM employees WHERE email='${email}' LIMIT 1;`)
-  const employee = data.rows[0]
+  const data = await db.select().from(Employee).where(eq(Employee.email, email))
+  const employee = data[0]
 
   if (employee.password !== pass) {
     res.statusCode = 401
