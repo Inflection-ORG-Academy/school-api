@@ -12,7 +12,7 @@ const forgotPasswordTemplate = (token) => {
       <div class="card-header h5 text-white bg-primary">Password Reset</div>
       <div class="card-body px-5">
         <p class="card-text py-2">
-          This token will be valid for 5 min
+          This token will be valid for ${process.env.RESET_PASSWORD_TOEKN_TIME_MIN} min
         </p>
         <a href="http://localhost:5000/reset_password/${token}" class="btn btn-primary w-100">Reset password</a>
       </div>
