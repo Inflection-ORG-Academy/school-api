@@ -10,19 +10,35 @@ import { upload } from "../multer.mjs"
 import { authentication } from "../middleware/auth.mjs"
 import { sendEmail } from "../email/email.mjs";
 import { forgotPasswordTemplate } from "../email/emailTemplets.mjs";
+import bcrypt from "bcrypt";
 
 const employeeRouter = express.Router()
 
-employeeRouter.post("/login", errorCapture(async (req, res, next) => {
-  const { email, pass } = req.body
-  const data = await db.select().from(Employee).where(eq(Employee.email, email))
+employeeRouter.post("/signup", errorCapture(async (req, res, next) => {
+  const { name, email, pass, role } = req.body
+
+  const hashedPasswrod = await bcrypt.hash(pass, 10);
+
+  const data = await db.insert(Employee).values({ name, email, password: hashedPasswrod, role }).returning()
   const employee = data[0]
 
-  if (employee.password !== pass) {
-    res.statusCode = 401
-    return res.json({ error: "password is wrong" })
-  }
+  // create token
+  var token = jwt.sign({ id: employee.id, email: employee.email, name: employee.name, role: employee.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
+  res.json({ token })
+}))
+
+employeeRouter.post("/login", errorCapture(async (req, res, next) => {
+  const { email, pass } = req.body
+
+  const data = await db.select().from(Employee).where(eq(Employee.email, email)).limit(1)
+  if (data.length == 0) {
+    throw new CustomError(null, 401, "employee not found")
+  }
+  const employee = data[0]
+  if (!(await bcrypt.compare(pass, employee.password))) {
+    throw new CustomError(null, 401, "password is wrong")
+  }
   // create token
   var token = jwt.sign({ id: employee.id, email: employee.email, name: employee.name, role: employee.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
