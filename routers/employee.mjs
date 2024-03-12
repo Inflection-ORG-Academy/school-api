@@ -58,7 +58,7 @@ employeeRouter.patch("/forgot_password", errorCapture(async (req, res, next) => 
     throw new CustomError(null, 400, "employee not found")
   }
   // send email
-  await sendEmail("price", email, "Forgot Password", forgotPasswordTemplate(token))
+  await sendEmail(data[0].name, email, "Forgot Password", forgotPasswordTemplate(token, data[0].name))
   res.json({ message: "password reset link sent to your email" })
 }))
 

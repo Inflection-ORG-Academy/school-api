@@ -1,4 +1,4 @@
-const forgotPasswordTemplate = (token) => {
+const forgotPasswordTemplate = (token, fullName) => {
   return `<!DOCTYPE html>
   <html lang="en">
   
@@ -10,6 +10,7 @@ const forgotPasswordTemplate = (token) => {
   <body>
     <div class="card text-center" style="width: 300px;">
       <div class="card-header h5 text-white bg-primary">Password Reset</div>
+      Hey, ${fullName}
       <div class="card-body px-5">
         <p class="card-text py-2">
           This token will be valid for ${process.env.RESET_PASSWORD_TOEKN_TIME_MIN} min
