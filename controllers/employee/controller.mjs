@@ -10,11 +10,11 @@ import { forgotPasswordTemplate } from "../../email/emailTemplets.mjs";
 import bcrypt from "bcrypt";
 
 const signup = errorCapture(async (req, res, next) => {
-  const { name, email, pass, role } = req.body
+  const { name, email, pass, role, phone } = req.body
 
   const hashedPasswrod = await bcrypt.hash(pass, 10);
 
-  const data = await db.insert(Employee).values({ name, email, password: hashedPasswrod, role }).returning()
+  const data = await db.insert(Employee).values({ name, email, password: hashedPasswrod, role, phone, createdBy: req.employee.id }).returning()
   const employee = data[0]
 
   // create token
@@ -83,10 +83,26 @@ const updateProfile = errorCapture(async (req, res, next) => {
   })
 })
 
-const getProfile = errorCapture(function (req, res, next) {
-  // TODO: get file name from DB
+const getMyProfile = errorCapture(function (req, res, next) {
+  // TODO: get my profile
+  res.json({})
+})
+
+const listProfiles = errorCapture(function (req, res, next) {
+  // TODO: lsit all profiles
+  res.json({})
+})
+
+const getMyProfilePhoto = errorCapture(function (req, res, next) {
+  // TODO: get all profile details
   const fileName = "apple.jpg"
   res.sendFile(path.resolve(`uploads/${fileName}`));
 })
 
-export { signup, signin, forgotPassword, resetPassword, updateProfile, getProfile }
+const getProfilePhoto = errorCapture(function (req, res, next) {
+  // TODO: get all profile details
+  const fileName = "apple.jpg"
+  res.sendFile(path.resolve(`uploads/${fileName}`));
+})
+
+export { signup, signin, forgotPassword, resetPassword, updateProfile, getMyProfile, listProfiles, getMyProfilePhoto, getProfilePhoto }

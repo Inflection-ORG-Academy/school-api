@@ -3,7 +3,7 @@ import { CustomError } from "../../routers/error.mjs"
 import { errorCapture } from "../../routers/error.mjs"
 
 const signupValidator = errorCapture(async (req, res, next) => {
-  const { name, email, pass, role } = req.body
+  const { name, email, pass, phone } = req.body
 
   if (!name) {
     throw new CustomError(null, 400, "name is required")
@@ -19,6 +19,15 @@ const signupValidator = errorCapture(async (req, res, next) => {
   if (!validator.isEmail(email)) {
     throw new CustomError(null, 400, "email is not valid")
   }
+
+  if (!pass) {
+    throw new CustomError(null, 400, "password is required")
+  }
+  if (pass.length < 4 || pass.length > 30) {
+    throw new CustomError(null, 400, "password length is not valid")
+  }
+
+  // TODO: phone validation
   next()
 })
 
