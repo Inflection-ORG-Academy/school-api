@@ -110,9 +110,9 @@ const getMyProfile = errorCapture(async (req, res, next) => {
   res.json(data)
 })
 
-const listProfiles = errorCapture(function (req, res, next) {
-  // TODO: lsit all profiles
-  res.json({})
+const listProfiles = errorCapture(async function (req, res, next) {
+  const data = await db.select().from(Employee)
+  res.json(data)
 })
 
 const getMyProfilePhoto = errorCapture(function (req, res, next) {
