@@ -14,7 +14,7 @@ const Employee = pgTable('employees', {
   forgotToken: text('forgot_token'),
   forgotTokenCreatedAt: timestamp('forgot_token_created_at', { precision: 0, withTimezone: true }),
   createdAt: timestamp('created_at', { precision: 0, withTimezone: true }).notNull().default('now()'),
-  createdBy: bigint('created_by', { mode: "bigint" }).references(() => Employee.id),
+  createdBy: bigint('created_by', { mode: "number" }).references(() => Employee.id),
 });
 
 export { Employee, Roles }

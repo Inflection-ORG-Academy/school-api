@@ -5,7 +5,7 @@ const Genders = pgEnum('genders', ['male', 'female']);
 const Categories = pgEnum('categories', ['gen', 'obc', 'sc', 'st']);
 
 const Student = pgTable('students', {
-  id: bigserial('id', { mode: "bigint" }).primaryKey(),
+  id: bigserial('id', { mode: "number" }).primaryKey(),
   registrationId: text('registration_id').unique().notNull(),
   name: text('name').notNull(),
   password: text('password').notNull(),
@@ -24,7 +24,7 @@ const Registration = pgTable('students_registration', {
   email: text('email'),
   religion: text('religion'),
   address: text('address').notNull(),
-  aadhar: bigint('aadhar', { mode: "bigint" }),
+  aadhar: bigint('aadhar', { mode: "number" }),
   nationality: text('nationality'),
   dob: date('dob').notNull(),
   motherName: text('mother_name'),

@@ -10,14 +10,14 @@ const AdmissionProforma = pgTable('admission_proformas', {
   startTime: timestamp('start_time', { precision: 0, withTimezone: true }).notNull(),
   endTime: timestamp('end_time', { precision: 0, withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { precision: 0, withTimezone: true }).notNull().default('now()'),
-  createdBy: bigint('created_by', { mode: "bigint" }).references(() => Employee.id),
+  createdBy: bigint('created_by', { mode: "number" }).references(() => Employee.id),
 });
 
 const FeesFor = pgEnum('fees_for', ['old', 'new', 'both']);
 
 const FeesProforma = pgTable('fees_proformas', {
-  id: bigserial('id', { mode: "bigint" }).primaryKey(),
-  admisionProformaId: bigint('admision_proforma_id', { mode: "bigint" }).references(() => AdmissionProforma.id),
+  id: bigserial('id', { mode: "number" }).primaryKey(),
+  admisionProformaId: bigint('admision_proforma_id', { mode: "number" }).references(() => AdmissionProforma.id),
   category: text('category').notNull(),
   name: text('name').notNull(),
   amount: integer('amount').notNull(),
@@ -28,16 +28,16 @@ const FeesProforma = pgTable('fees_proformas', {
   penaltyRate: integer('penalty_rate').notNull().default(0),
   penaltyIncDay: integer('penalty_inc_day').notNull().default(30),
   createdAt: timestamp('created_at', { precision: 0, withTimezone: true }).notNull().default('now()'),
-  createdBy: bigint('created_by', { mode: "bigint" }).references(() => Employee.id),
+  createdBy: bigint('created_by', { mode: "number" }).references(() => Employee.id),
 });
 
 const SectionProforma = pgTable('fees_proformas', {
-  id: bigserial('id', { mode: "bigint" }).primaryKey(),
-  admisionProformaId: bigint('admision_proforma_id', { mode: "bigint" }).references(() => AdmissionProforma.id),
+  id: bigserial('id', { mode: "number" }).primaryKey(),
+  admisionProformaId: bigint('admision_proforma_id', { mode: "number" }).references(() => AdmissionProforma.id),
   name: text('name').notNull(),
   seat: integer('seat').notNull(),
   createdAt: timestamp('created_at', { precision: 0, withTimezone: true }).notNull().default('now()'),
-  createdBy: bigint('created_by', { mode: "bigint" }).references(() => Employee.id),
+  createdBy: bigint('created_by', { mode: "number" }).references(() => Employee.id),
 });
 
 export { AdmissionProforma, FeesProforma, FeesFor, SectionProforma }

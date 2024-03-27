@@ -8,6 +8,7 @@ import { and, eq, gt } from 'drizzle-orm';
 import { sendEmail } from "../../email/email.mjs";
 import { forgotPasswordTemplate } from "../../email/emailTemplets.mjs";
 import bcrypt from "bcrypt";
+import { alias } from "drizzle-orm/pg-core";
 
 const signup = errorCapture(async (req, res, next) => {
   const { name, email, pass, role, phone } = req.body
@@ -90,9 +91,23 @@ const updateProfile = errorCapture(async (req, res, next) => {
   })
 })
 
-const getMyProfile = errorCapture(function (req, res, next) {
-  // TODO: get my profile
-  res.json({})
+const getMyProfile = errorCapture(async (req, res, next) => {
+  const parent = alias(Employee, "parent")
+  const dataRes = await db.select({
+    id: Employee.id,
+    name: Employee.name,
+    email: Employee.email,
+    phone: Employee.phone,
+    role: Employee.role,
+    createdAt: Employee.createdAt,
+    profilePhoto: Employee.profilePhoto,
+    createdByName: parent.name,
+    createdByEmail: parent.email
+  }).from(Employee).where(eq(Employee.id, req.employee.id)).innerJoin(parent, eq(parent.id, Employee.createdBy))
+
+  const data = dataRes[0]
+
+  res.json(data)
 })
 
 const listProfiles = errorCapture(function (req, res, next) {
