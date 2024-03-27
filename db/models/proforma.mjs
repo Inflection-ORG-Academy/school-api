@@ -3,7 +3,7 @@ import { pgTable, bigserial, text, timestamp, pgEnum, integer, boolean } from "d
 import { Employee } from "./employee.mjs";
 
 const AdmissionProforma = pgTable('admission_proformas', {
-  id: bigserial('id', { mode: "bigint" }).primaryKey(),
+  id: bigserial('id', { mode: "number" }).primaryKey(),
   session: text('session').notNull(),
   class: text('class').notNull(),
   standard: integer('standard').notNull(),

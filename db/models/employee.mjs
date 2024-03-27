@@ -4,7 +4,7 @@ import { pgTable, bigserial, text, timestamp, pgEnum } from "drizzle-orm/pg-core
 const Roles = pgEnum('roles', ['worker', 'clerk', 'principal', 'teacher', 'accountant', 'admin', 'marketer']);
 
 const Employee = pgTable('employees', {
-  id: bigserial('id', { mode: "bigint" }).primaryKey(),
+  id: bigserial('id', { mode: "number" }).primaryKey(),
   name: text('name').notNull(),
   email: text('email').unique().notNull(),
   phone: text('phone').notNull(),

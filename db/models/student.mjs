@@ -16,7 +16,7 @@ const Student = pgTable('students', {
 
 const Registration = pgTable('students_registration', {
   id: bigserial('id', { mode: "number" }).primaryKey(),
-  studentId: bigint('student_id', { mode: "bigint" }).notNull().references(() => Student.id),
+  studentId: bigint('student_id', { mode: "number" }).notNull().references(() => Student.id),
   fatherName: text('father_name').notNull(),
   phone: text('phone').notNull(),
   alterPhone: text('alter_phone'),
