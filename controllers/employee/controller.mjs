@@ -67,7 +67,7 @@ const resetPassword = errorCapture(async (req, res, next) => {
   const time = new Date(Date.now() - process.env.RESET_PASSWORD_TOEKN_TIME_MIN * 60 * 1000)
   // update from token and its expiry
   const data = await db.update(Employee)
-    .set({ password: hashedPasswrod })
+    .set({ password: hashedPasswrod, forgotToken: '' })
     .where(and(eq(Employee.forgotToken, token), gt(Employee.forgotTokenCreatedAt, time))).returning()
   if (data.length == 0) {
     throw new CustomError(null, 400, "invalid token or expired")
@@ -76,10 +76,17 @@ const resetPassword = errorCapture(async (req, res, next) => {
 })
 
 const updateProfile = errorCapture(async (req, res, next) => {
-  // todo: save file name to employee profile photo in column name profile_photo
-  console.log(req.file)
+  const dataRes = await db.select().from(Employee).where(eq(Employee.id, req.employee.id))
+  let { name, profilePhoto } = dataRes[0]
+  req.body.name ? name = req.body.name : ""
+  req.file ? profilePhoto = req.file.filename : ""
+
+  const data = await db.update(Employee)
+    .set({ name, profilePhoto })
+    .where(eq(Employee.id, req.employee.id));
+
   res.json({
-    message: "file uploaded successfully"
+    message: "profile updated successfully"
   })
 })
 
