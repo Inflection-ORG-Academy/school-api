@@ -22,16 +22,16 @@ employeeRouter.patch("/forgot_password", forgotPassword)
 
 employeeRouter.patch("/reset_password/:token", resetPassword)
 
-// TODO: ....
 employeeRouter.patch("/profiles/my", authentication, errorCapture(upload.single("image")), updateProfile)
-
-employeeRouter.get("/profiles/my_photo", authentication, getMyProfilePhoto)
-
-employeeRouter.get("/profiles/photo/:id", authentication, adminAuthorization, getProfilePhoto)
 
 employeeRouter.get('/profiles/my', authentication, getMyProfile)
 
 employeeRouter.get("/profiles", authentication, adminAuthorization, listProfiles)
+
+// TODO: ....
+employeeRouter.get("/profiles/photo/:id", authentication, adminAuthorization, getProfilePhoto)
+employeeRouter.get("/profiles/my_photo", authentication, getMyProfilePhoto)
+
 
 // TODO: new todo
 employeeRouter.post("/admission_proforma", authentication, adminAuthorization, createAdmissionProforma)

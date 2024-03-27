@@ -115,15 +115,22 @@ const listProfiles = errorCapture(async function (req, res, next) {
   res.json(data)
 })
 
-const getMyProfilePhoto = errorCapture(function (req, res, next) {
-  // TODO: get all profile details
-  const fileName = "apple.jpg"
+const getMyProfilePhoto = errorCapture(async function (req, res, next) {
+
+  const data = await db.select({ profilePhoto: Employee.profilePhoto }).from(Employee).where(eq(Employee.id, req.employee.id))
+  const fileName = data[0].profilePhoto
+  if (!fileName) {
+    throw new CustomError(null, 401, "no profile photo updated")
+  }
   res.sendFile(path.resolve(`uploads/${fileName}`));
 })
 
-const getProfilePhoto = errorCapture(function (req, res, next) {
-  // TODO: get all profile details
-  const fileName = "apple.jpg"
+const getProfilePhoto = errorCapture(async function (req, res, next) {
+  const data = await db.select({ profilePhoto: Employee.profilePhoto }).from(Employee).where(eq(Employee.id, req.params.id))
+  const fileName = data[0].profilePhoto
+  if (!fileName) {
+    throw new CustomError(null, 401, "no profile photo updated")
+  }
   res.sendFile(path.resolve(`uploads/${fileName}`));
 })
 
