@@ -1,7 +1,7 @@
 import { CustomError, errorCapture } from "../../routers/error.mjs";
 import { db } from "../../database.mjs"
 import { and, eq, gt } from 'drizzle-orm';
-import { AdmissionProforma, FeesProforma } from "../../db/models/proforma.mjs";
+import { AdmissionProforma, FeesProforma, SectionProforma } from "../../db/models/proforma.mjs";
 
 const createAdmissionProforma = errorCapture(async function (req, res, next) {
   const { session, className, standard, startTime, endTime } = req.body
@@ -42,9 +42,10 @@ const createFeesProforma = errorCapture(async function (req, res, next) {
   res.json(data)
 })
 
-const createSectionProforma = errorCapture(function (req, res, next) {
-  // TODO: create section proforma
-  res.json({})
+const createSectionProforma = errorCapture(async function (req, res, next) {
+  const { name, admisionProformaId, seat } = req.body
+  const data = await db.insert(SectionProforma).values({ name, admisionProformaId, seat, createdBy: req.employee.id }).returning()
+  res.json(data)
 })
 
 const listAdmissionProforma = errorCapture(function (req, res, next) {
