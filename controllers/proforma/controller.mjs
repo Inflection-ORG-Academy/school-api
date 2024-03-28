@@ -48,19 +48,66 @@ const createSectionProforma = errorCapture(async function (req, res, next) {
   res.json(data)
 })
 
-const listAdmissionProforma = errorCapture(function (req, res, next) {
-  // TODO: list all active + inactive admission proforma
-  res.json({})
-})
+const listAdmissionProforma = errorCapture(async function (req, res, next) {
+  const data = await db.select().from(AdmissionProforma).innerJoin(FeesProforma, eq(AdmissionProforma.id, FeesProforma.admisionProformaId)).innerJoin(SectionProforma, eq(AdmissionProforma.id, SectionProforma.admisionProformaId))
 
-const listFeesProforma = errorCapture(function (req, res, next) {
-  // TODO: list fees by admission_proforma_id proforma for public
-  res.json({})
-})
+  //TODO :  parase data object
 
-const listSectionProforma = errorCapture(function (req, res, next) {
-  // TODO: list section by admission proforma id proforma for public
-  res.json({})
+  const ans = [
+    {
+      id: 1,
+      session: "2024-2025",
+      className: "8th",
+      standard: 8,
+      startTime: "2024-03-27T03:01:17.000Z",
+      endTime: "2024-04-10T03:01:17.000Z",
+      createdAt: "2024-03-28T03:27:16.000Z",
+      createdBy: 1,
+      fees_proformas: [
+        {
+          id: 2,
+          admisionProformaId: 1,
+          category: "admission",
+          name: "uniform",
+          amount: 2000,
+          appliedFor: "both",
+          optional: true,
+          isRecuring: false,
+          dueDate: "2024-04-10T03:01:17.000Z",
+          penaltyRate: 1,
+          penaltyIncDay: 30,
+          createdAt: "2024-03-28T03:27:16.000Z",
+          createdBy: 1
+        },
+        {
+          id: 1,
+          admisionProformaId: 1,
+          category: "admission",
+          name: "registration",
+          amount: 200,
+          appliedFor: "both",
+          optional: false,
+          isRecuring: false,
+          dueDate: "2024-04-10T03:01:17.000Z",
+          penaltyRate: 5,
+          penaltyIncDay: 10,
+          createdAt: "2024-03-28T03:27:16.000Z",
+          createdBy: 1
+        }
+      ],
+      section_proformas: [
+        {
+          id: 3,
+          admisionProformaId: 1,
+          name: "A",
+          seat: 30,
+          createdAt: "2024-03-28T03:27:16.000Z",
+          createdBy: 1
+        }
+      ]
+    }
+  ]
+  res.json(ans)
 })
 
 const activeListAdmissionProforma = errorCapture(function (req, res, next) {
@@ -68,8 +115,7 @@ const activeListAdmissionProforma = errorCapture(function (req, res, next) {
   res.json({})
 })
 
-
 export {
   createAdmissionProforma, createFeesProforma, createSectionProforma,
-  listAdmissionProforma, listFeesProforma, listSectionProforma, activeListAdmissionProforma
+  listAdmissionProforma, activeListAdmissionProforma
 }
