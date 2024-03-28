@@ -22,4 +22,10 @@ const createFeesProformaValidator = errorCapture(async (req, res, next) => {
   next()
 })
 
-export { createAdmissionProformaValidator, createFeesProformaValidator }
+const createSectionProformaValidator = errorCapture(async (req, res, next) => {
+
+  // TODO: validate here
+  next()
+})
+
+export { createAdmissionProformaValidator, createFeesProformaValidator, createSectionProformaValidator }
