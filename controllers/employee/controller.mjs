@@ -9,6 +9,7 @@ import { sendEmail } from "../../email/email.mjs";
 import { forgotPasswordTemplate } from "../../email/emailTemplets.mjs";
 import bcrypt from "bcrypt";
 import { alias } from "drizzle-orm/pg-core";
+import { AdmissionProforma } from "../../db/models/proforma.mjs";
 
 const signup = errorCapture(async (req, res, next) => {
   const { name, email, pass, role, phone } = req.body
@@ -134,44 +135,7 @@ const getProfilePhoto = errorCapture(async function (req, res, next) {
   res.sendFile(path.resolve(`uploads/${fileName}`));
 })
 
-const createAdmissionProforma = errorCapture(function (req, res, next) {
-  // TODO: create admission proforma
-  res.json({})
-})
-
-const createFeesProforma = errorCapture(function (req, res, next) {
-  // TODO: create fee proforma
-  res.json({})
-})
-
-const createSectionProforma = errorCapture(function (req, res, next) {
-  // TODO: create section proforma
-  res.json({})
-})
-
-const listAdmissionProforma = errorCapture(function (req, res, next) {
-  // TODO: list all active + inactive admission proforma
-  res.json({})
-})
-
-const listFeesProforma = errorCapture(function (req, res, next) {
-  // TODO: list fees by admission_proforma_id proforma for public
-  res.json({})
-})
-
-const listSectionProforma = errorCapture(function (req, res, next) {
-  // TODO: list section by admission proforma id proforma for public
-  res.json({})
-})
-
-const activeListAdmissionProforma = errorCapture(function (req, res, next) {
-  // TODO: list all active admission proforma for public
-  res.json({})
-})
-
 export {
   signup, signin, forgotPassword, resetPassword,
-  updateProfile, getMyProfile, listProfiles, getMyProfilePhoto, getProfilePhoto,
-  createAdmissionProforma, createFeesProforma, createSectionProforma,
-  listAdmissionProforma, listFeesProforma, listSectionProforma, activeListAdmissionProforma
+  updateProfile, getMyProfile, listProfiles, getMyProfilePhoto, getProfilePhoto
 }

@@ -5,7 +5,7 @@ import { Employee } from "./employee.mjs";
 const AdmissionProforma = pgTable('admission_proformas', {
   id: bigserial('id', { mode: "number" }).primaryKey(),
   session: text('session').notNull(),
-  class: text('class').notNull(),
+  className: text('class').notNull(),
   standard: integer('standard').notNull(),
   startTime: timestamp('start_time', { precision: 0, withTimezone: true }).notNull(),
   endTime: timestamp('end_time', { precision: 0, withTimezone: true }).notNull(),
@@ -31,7 +31,7 @@ const FeesProforma = pgTable('fees_proformas', {
   createdBy: bigint('created_by', { mode: "number" }).references(() => Employee.id),
 });
 
-const SectionProforma = pgTable('fees_proformas', {
+const SectionProforma = pgTable('section_proformas', {
   id: bigserial('id', { mode: "number" }).primaryKey(),
   admisionProformaId: bigint('admision_proforma_id', { mode: "number" }).references(() => AdmissionProforma.id),
   name: text('name').notNull(),

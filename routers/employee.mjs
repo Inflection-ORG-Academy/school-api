@@ -4,9 +4,7 @@ import {
   forgotPassword,
   getMyProfile, listProfiles,
   resetPassword, signin, signup,
-  updateProfile, getMyProfilePhoto, getProfilePhoto,
-  createAdmissionProforma, createFeesProforma, createSectionProforma,
-  listAdmissionProforma, listFeesProforma, listSectionProforma, activeListAdmissionProforma
+  updateProfile, getMyProfilePhoto, getProfilePhoto
 } from "../controllers/employee/controller.mjs";
 import { signupValidator } from "../controllers/employee/validator.mjs";
 import { errorCapture } from "./error.mjs";
@@ -28,20 +26,7 @@ employeeRouter.get('/profiles/my', authentication, getMyProfile)
 
 employeeRouter.get("/profiles", authentication, adminAuthorization, listProfiles)
 
-// TODO: ....
 employeeRouter.get("/profiles/photo/:id", authentication, adminAuthorization, getProfilePhoto)
 employeeRouter.get("/profiles/my_photo", authentication, getMyProfilePhoto)
-
-
-// TODO: new todo
-employeeRouter.post("/admission_proforma", authentication, adminAuthorization, createAdmissionProforma)
-employeeRouter.post("/fees_proforma", authentication, adminAuthorization, createFeesProforma)
-employeeRouter.post("/section_proforma", authentication, adminAuthorization, createSectionProforma)
-
-employeeRouter.get("/admission_proforma", authentication, adminAuthorization, listAdmissionProforma)
-employeeRouter.get("/fees_proforma/:admission_proforma_id", listFeesProforma)
-employeeRouter.get("/section_proforma/:admission_proforma_id", listSectionProforma)
-
-employeeRouter.get("/admission_proforma/active", activeListAdmissionProforma)
 
 export { employeeRouter }
