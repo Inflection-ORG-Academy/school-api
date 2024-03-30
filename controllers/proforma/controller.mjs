@@ -49,65 +49,43 @@ const createSectionProforma = errorCapture(async function (req, res, next) {
 })
 
 const listAdmissionProforma = errorCapture(async function (req, res, next) {
-  const data = await db.select().from(AdmissionProforma).innerJoin(FeesProforma, eq(AdmissionProforma.id, FeesProforma.admisionProformaId)).innerJoin(SectionProforma, eq(AdmissionProforma.id, SectionProforma.admisionProformaId))
-
-  //TODO :  parase data object
-
-  const ans = [
-    {
-      id: 1,
-      session: "2024-2025",
-      className: "8th",
-      standard: 8,
-      startTime: "2024-03-27T03:01:17.000Z",
-      endTime: "2024-04-10T03:01:17.000Z",
-      createdAt: "2024-03-28T03:27:16.000Z",
-      createdBy: 1,
-      fees_proformas: [
-        {
-          id: 2,
-          admisionProformaId: 1,
-          category: "admission",
-          name: "uniform",
-          amount: 2000,
-          appliedFor: "both",
-          optional: true,
-          isRecuring: false,
-          dueDate: "2024-04-10T03:01:17.000Z",
-          penaltyRate: 1,
-          penaltyIncDay: 30,
-          createdAt: "2024-03-28T03:27:16.000Z",
-          createdBy: 1
-        },
-        {
-          id: 1,
-          admisionProformaId: 1,
-          category: "admission",
-          name: "registration",
-          amount: 200,
-          appliedFor: "both",
-          optional: false,
-          isRecuring: false,
-          dueDate: "2024-04-10T03:01:17.000Z",
-          penaltyRate: 5,
-          penaltyIncDay: 10,
-          createdAt: "2024-03-28T03:27:16.000Z",
-          createdBy: 1
-        }
-      ],
-      section_proformas: [
-        {
-          id: 3,
-          admisionProformaId: 1,
-          name: "A",
-          seat: 30,
-          createdAt: "2024-03-28T03:27:16.000Z",
-          createdBy: 1
-        }
-      ]
+  const sample = await db.select().from(AdmissionProforma).innerJoin(FeesProforma, eq(AdmissionProforma.id, FeesProforma.admisionProformaId)).innerJoin(SectionProforma, eq(AdmissionProforma.id, SectionProforma.admisionProformaId))
+  const output = []
+  for (let i = 0; i < sample.length; i++) {
+    let isAdmissionExists = false
+    let j = 0
+    for (j = 0; j < output.length; j++) {
+      if (output[j].id === sample[i].admission_proformas.id) {
+        isAdmissionExists = true
+      }
     }
-  ]
-  res.json(ans)
+    if (!isAdmissionExists) {
+      output.push(sample[i].admission_proformas)
+      output[output.length - 1].fees_proformas = [sample[i].fees_proformas]
+      output[output.length - 1].section_proformas = [sample[i].section_proformas]
+    } else {
+      let isFeesExists = false
+      for (let k = 0; k < output[j - 1].fees_proformas.length; k++) {
+        if (output[j - 1].fees_proformas[k].id === sample[i].fees_proformas.id) {
+          isFeesExists = true
+        }
+      }
+      if (!isFeesExists) {
+        output[j - 1].fees_proformas.push(sample[i].fees_proformas)
+      }
+      let isSectionExists = false
+      for (let l = 0; l < output[j - 1].section_proformas.length; l++) {
+        if (output[j - 1].section_proformas[l].id === sample[i].section_proformas.id) {
+          isSectionExists = true
+        }
+      }
+      if (!isSectionExists) {
+        output[j - 1].section_proformas.push(sample[i].section_proformas)
+      }
+    }
+  }
+
+  res.json(output)
 })
 
 const activeListAdmissionProforma = errorCapture(function (req, res, next) {
