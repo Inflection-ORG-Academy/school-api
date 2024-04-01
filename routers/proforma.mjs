@@ -12,9 +12,9 @@ proformaRouter.post("/admissions", authentication, adminAuthorization, createAdm
 proformaRouter.post("/fees", authentication, adminAuthorization, createFeesProformaValidator, createFeesProforma)
 proformaRouter.post("/sections", authentication, adminAuthorization, createSectionProformaValidator, createSectionProforma)
 
-// TODO: new todo
 proformaRouter.get("/admissions", authentication, adminAuthorization, listAdmissionProforma)
 
-proformaRouter.get("/admission_proforma/active", activeListAdmissionProforma)
+// TODO: new todo
+proformaRouter.get("/admissions/active", activeListAdmissionProforma)
 
 export { proformaRouter }
