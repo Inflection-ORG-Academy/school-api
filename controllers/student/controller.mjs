@@ -25,11 +25,7 @@ const registerStudent = errorCapture(async (req, res, next) => {
   const registrationData = await db.insert(Registration).values({ studentId: student.id, fatherName, phone, alterPhone, dob, address, email, note }).returning({ studentId: Registration.studentId, fatherName: Registration.fatherName, phone: Registration.phone, alterPhone: Registration.alterPhone, dob: Registration.dob, address: Registration.address, email: Registration.email })
   const registration = registrationData[0]
 
-  // TODO: copy fees proforma of student to fees table
-
-  var token = jwt.sign({ id: registration.studentId, registration: registrationId, name: student.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-  res.json({ token, registration: { ...registration, registrationId: student.registrationId } })
+  res.json({ registration: { ...registration, registrationId: student.registrationId } })
 })
 
 const loginStudent = errorCapture(async (req, res, next) => {
