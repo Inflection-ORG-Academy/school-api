@@ -10,57 +10,16 @@
 			"name": "Students",
 			"item": [
 				{
-					"name": "List Students",
+					"name": "Register",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/students",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"students"
-							],
-							"query": [
-								{
-									"key": "limit",
-									"value": "10",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create New Student",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{TOKEN}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"64s5c9d65d5v8f\",\n    \"father_name\": \"fsonu\",\n    \"phone\": \"564651654\"\n}",
+							"raw": "{\n    \"name\": \"vivek\", \n    \"fatherName\": \"vk\",\n    \"dob\": \"2012-01-01T10:00:00.000Z\",\n    \"phone\": \"9566454844\",\n    \"alterPhone\": \"92454845484\", \n    \"email\": \"vk@gmail.com\", \n    \"password\" : \"1234\", \n    \"address\": \"khalwapur\", \n    \"admissionProformaId\": 1, \n    \"feesProformaIds\": [1,2]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -68,25 +27,41 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/students",
+							"raw": "{{URL}}/students/register",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
-								"students"
+								"students",
+								"register"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update Student",
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"STUDENT_TOKEN\", pm.response.json().token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
-						"method": "PATCH",
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"64s5c9d65d5v8f\",\n    \"father_name\": \"fsonu\",\n    \"phone\": \"564651654\"\n}",
+							"raw": "{\n    \"registrationId\": \"27255083\",\n    \"password\" : \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,20 +69,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/students/4/?hello=9",
+							"raw": "{{URL}}/students/login",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"students",
-								"4",
-								""
-							],
-							"query": [
-								{
-									"key": "hello",
-									"value": "9"
-								}
+								"login"
 							]
 						}
 					},
@@ -213,7 +181,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{URL}}/employees/profiles/photo/9",
+									"raw": "{{URL}}/employees/profiles/photo/1",
 									"host": [
 										"{{URL}}"
 									],
@@ -221,7 +189,7 @@
 										"employees",
 										"profiles",
 										"photo",
-										"9"
+										"1"
 									]
 								}
 							},
@@ -297,7 +265,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"clerk@school.com\",\n    \"pass\": \"1234\",\n    \"role\": \"clerk\",\n    \"name\": \"clerk\",\n    \"phone\": \"8888888888\"\n}",
+							"raw": "{\n    \"email\": \"teacher1@school.com\",\n    \"pass\": \"1234\",\n    \"role\": \"teacher\",\n    \"name\": \"prakash\",\n    \"phone\": \"7777777777\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -324,7 +292,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.environment.set(\"TOKEN\", pm.response.json().token)"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -336,7 +304,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"clerk@school.com\"\n}",
+							"raw": "{\n    \"email\": \"teacher1@school.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -383,14 +351,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/employees/reset_password/ec1fd129f77461906f26f6d74bbcce91cc275d481ab3a10abc80af1f52af",
+							"raw": "{{URL}}/employees/reset_password/ef6df240a4b825d4a36d9e20bf13d2c9682cf79008bb7489358aa2815033",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"employees",
 								"reset_password",
-								"ec1fd129f77461906f26f6d74bbcce91cc275d481ab3a10abc80af1f52af"
+								"ef6df240a4b825d4a36d9e20bf13d2c9682cf79008bb7489358aa2815033"
 							]
 						}
 					},
@@ -428,13 +396,13 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "rahul",
+									"value": "prakash maurya",
 									"type": "text"
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/home/excel/Pictures/set_and_reset_latch.png"
+									"src": "/home/excel/Pictures/3.png"
 								}
 							]
 						},
@@ -583,7 +551,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"session\": \"2024-2025\",\n    \"className\": \"8th\",\n    \"standard\": 8,\n    \"startTime\": \"2024-03-27T03:01:17.000Z\",\n    \"endTime\": \"2024-04-10T03:01:17.000Z\"\n}",
+									"raw": "{\n    \"session\": \"2024-2025\",\n    \"className\": \"9th\",\n    \"standard\": 9,\n    \"startTime\": \"2024-03-27T03:01:17.000Z\",\n    \"endTime\": \"2024-04-10T03:01:17.000Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -620,7 +588,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"admisionProformaId\": 6,\n    \"category\": \"admission\",\n    \"name\": \"registration\",\n    \"amount\": 200,\n    \"appliedFor\": \"both\",\n    \"optional\": false,\n    \"isRecuring\": false,\n    \"dueDate\": \"2024-04-10T03:01:17.000Z\",\n    \"penaltyRate\": 5,\n    \"penaltyIncDay\": 10\n}",
+									"raw": "{\n    \"admisionProformaId\": 2,\n    \"category\": \"admission\",\n    \"name\": \"registration\",\n    \"amount\": 300,\n    \"appliedFor\": \"both\",\n    \"optional\": false,\n    \"isRecuring\": false,\n    \"dueDate\": \"2024-04-10T03:01:17.000Z\",\n    \"penaltyRate\": 1,\n    \"penaltyIncDay\": 30\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -657,7 +625,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"admisionProformaId\": 1,\n    \"name\": \"A\",\n    \"seat\": 30\n}",
+									"raw": "{\n    \"admisionProformaId\": 2,\n    \"name\": \"C\",\n    \"seat\": 19\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -678,7 +646,7 @@
 							"response": []
 						},
 						{
-							"name": "List Admissios",
+							"name": "List Admissions",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -706,6 +674,28 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "List Active Admissions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/proformas/admissions/active",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"proformas",
+								"admissions",
+								"active"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

@@ -6,5 +6,9 @@ const registrationValidator = errorCapture(async (req, res, next) => {
   // TODO: validate student data
   next()
 })
+const loginValidator = errorCapture(async (req, res, next) => {
+  // TODO: validate student data
+  next()
+})
 
-export { registrationValidator }
+export { registrationValidator, loginValidator }
