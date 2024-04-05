@@ -6,6 +6,8 @@ import { AdmissionProforma, FeesProforma, SectionProforma } from "../../db/model
 const createAdmissionProforma = errorCapture(async function (req, res, next) {
   const { session, className, standard, startTime, endTime } = req.body
 
+  // TODO:  check for last session and calculate next session_id
+
   const data = await db.insert(AdmissionProforma).values({ session, className, standard, startTime, endTime, createdBy: req.employee.id }).returning()
 
   res.json(data)

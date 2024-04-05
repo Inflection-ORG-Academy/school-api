@@ -2,15 +2,19 @@ import { bigint } from "drizzle-orm/mysql-core";
 import { pgTable, bigserial, text, timestamp, pgEnum, integer, boolean } from "drizzle-orm/pg-core";
 import { Employee } from "./employee.mjs";
 
+// TODO: add session_id as int not null
 const AdmissionProforma = pgTable('admission_proformas', {
   id: bigserial('id', { mode: "number" }).primaryKey(),
   session: text('session').notNull(),
+
   className: text('class').notNull(),
   standard: integer('standard').notNull(),
   startTime: timestamp('start_time', { precision: 0, withTimezone: true }).notNull(),
   endTime: timestamp('end_time', { precision: 0, withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { precision: 0, withTimezone: true }).notNull().default('now()'),
   createdBy: bigint('created_by', { mode: "number" }).references(() => Employee.id),
+}, (t) => {
+  unq: unique('unique_admission_proforma').on(t.session, t.className)
 });
 
 const FeesFor = pgEnum('fees_for', ['old', 'new', 'both']);

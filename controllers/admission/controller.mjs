@@ -1,3 +1,8 @@
+// admission this year verified -> show student panel
+// admission this year and not verified -> show form fill student details
+// admission not in this year but in last year -> payment for next class on result basis
+// admission not in this year and not in last year -> payment for this new admission
+
 import { CustomError, errorCapture } from "../../routers/error.mjs";
 import jwt from "jsonwebtoken";
 import { randomBytes } from "crypto";
@@ -8,11 +13,11 @@ import { alias } from "drizzle-orm/pg-core";
 import { Registration, Student } from "../../db/models/student.mjs";
 import { AdmissionProforma } from "../../db/models/proforma.mjs";
 
-const registerStudent = errorCapture(async (req, res, next) => {
+const getMyAdmission = errorCapture(async (req, res, next) => {
   const { name, fatherName, dob, phone, alterPhone, email, password, address, admissionProformaId, feesProformaIds } = req.body
 
-  // Generate Registration ID
-  const registrationId = parseInt(Math.random() * 100000000)
+  // Generate RollNumber ID
+  const rollNumberId = parseInt(Math.random() * 100000000)
 
   // Create Note for class and fees
   const note = `${admissionProformaId}-${feesProformaIds.join(",")}`
@@ -27,26 +32,3 @@ const registerStudent = errorCapture(async (req, res, next) => {
 
   res.json({ registration: { ...registration, registrationId: student.registrationId } })
 })
-
-const loginStudent = errorCapture(async (req, res, next) => {
-  const { registrationId, password } = req.body
-  const studentData = await db.select().from(Student).where(eq(registrationId, Student.registrationId))
-  if (studentData.length === 0) {
-    throw new CustomError(null, 404, "student not found")
-  }
-  const student = studentData[0]
-
-  if (!await bcrypt.compare(password, student.password)) {
-    throw new CustomError(null, 401, "your password is wrong")
-  }
-
-  // TODO: seclect only required data need to show on dashboard
-  const registrationData = await db.select({ fatherName: Registration.fatherName, dob: Registration.dob, email: Registration.email, phone: Registration.phone }).from(Registration).where(eq(Registration.studentId, student.id))
-  const registration = registrationData[0]
-
-  var token = jwt.sign({ id: registration.studentId, registration: registrationId, name: student.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-  res.json({ token, registration: { ...registration, registrationId: student.registrationId, name: student.name } })
-})
-
-export { registerStudent, loginStudent }
