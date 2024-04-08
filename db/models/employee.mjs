@@ -1,5 +1,4 @@
-import { bigint } from "drizzle-orm/mysql-core";
-import { pgTable, bigserial, text, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, bigserial, text, timestamp, pgEnum, bigint } from "drizzle-orm/pg-core";
 
 const Roles = pgEnum('roles', ['worker', 'clerk', 'principal', 'teacher', 'accountant', 'admin', 'marketer']);
 

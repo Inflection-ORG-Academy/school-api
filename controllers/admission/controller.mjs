@@ -32,3 +32,5 @@ const getMyAdmission = errorCapture(async (req, res, next) => {
 
   res.json({ registration: { ...registration, registrationId: student.registrationId } })
 })
+
+export { getMyAdmission }

@@ -1,5 +1,4 @@
-import { bigint } from "drizzle-orm/mysql-core";
-import { pgTable, bigserial, text, timestamp, pgEnum, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, bigserial, text, timestamp, pgEnum, integer, boolean, bigint } from "drizzle-orm/pg-core";
 import { Student } from "./student.mjs";
 import { SectionProforma } from "./proforma.mjs";
 import { Employee } from "./employee.mjs";

@@ -1,5 +1,4 @@
-import { bigint } from "drizzle-orm/mysql-core";
-import { pgTable, bigserial, text, timestamp, pgEnum, date } from "drizzle-orm/pg-core";
+import { pgTable, bigserial, text, timestamp, pgEnum, date, bigint } from "drizzle-orm/pg-core";
 
 const Genders = pgEnum('genders', ['male', 'female']);
 const Categories = pgEnum('categories', ['gen', 'obc', 'sc', 'st']);
