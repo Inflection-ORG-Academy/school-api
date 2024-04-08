@@ -44,7 +44,7 @@ const loginStudent = errorCapture(async (req, res, next) => {
   const registrationData = await db.select({ fatherName: Registration.fatherName, dob: Registration.dob, email: Registration.email, phone: Registration.phone }).from(Registration).where(eq(Registration.studentId, student.id))
   const registration = registrationData[0]
 
-  var token = jwt.sign({ id: registration.studentId, registration: registrationId, name: student.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  var token = jwt.sign({ id: student.id, registration: registrationId, name: student.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
   res.json({ token, registration: { ...registration, registrationId: student.registrationId, name: student.name } })
 })

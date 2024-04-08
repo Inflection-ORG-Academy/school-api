@@ -13,6 +13,7 @@ const Admission = pgTable('admissions', {
   sectionProformaId: bigint('section_prforma_id', { mode: "number" }).notNull().references(() => SectionProforma.id),
   isVerified: boolean('is_verified').notNull().default(false),
   createdAt: timestamp('created_at', { precision: 0, withTimezone: true }).notNull().default('now()'),
+  // TODO: add not null to reference
   verifiedBy: bigint('verified_by', { mode: "number" }).references(() => Employee.id),
 });
 

@@ -12,25 +12,21 @@ import bcrypt from "bcrypt";
 import { alias } from "drizzle-orm/pg-core";
 import { Registration, Student } from "../../db/models/student.mjs";
 import { AdmissionProforma } from "../../db/models/proforma.mjs";
+import { Admission } from "../../db/models/admission.mjs";
 
 const getMyAdmission = errorCapture(async (req, res, next) => {
-  const { name, fatherName, dob, phone, alterPhone, email, password, address, admissionProformaId, feesProformaIds } = req.body
-
-  // Generate RollNumber ID
-  const rollNumberId = parseInt(Math.random() * 100000000)
-
-  // Create Note for class and fees
-  const note = `${admissionProformaId}-${feesProformaIds.join(",")}`
-
   // TODO: search student in student_registration table
+  console.log(req.student)
 
-  const hashedPasswrod = await bcrypt.hash(password, 10);
-  const studentData = await db.insert(Student).values({ name, password: hashedPasswrod, registrationId }).returning()
-  const student = studentData[0]
-  const registrationData = await db.insert(Registration).values({ studentId: student.id, fatherName, phone, alterPhone, dob, address, email, note }).returning({ studentId: Registration.studentId, fatherName: Registration.fatherName, phone: Registration.phone, alterPhone: Registration.alterPhone, dob: Registration.dob, address: Registration.address, email: Registration.email })
-  const registration = registrationData[0]
+  const data = await db.select().from(Admission).where(eq(Admission.studentId, req.student.id))
 
-  res.json({ registration: { ...registration, registrationId: student.registrationId } })
+  if (data.length == 0) {
+    throw new CustomError(null, 404, "admission not found")
+  }
+
+  const admission = data[0]
+
+  res.json(admission)
 })
 
 export { getMyAdmission }
