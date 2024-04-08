@@ -1,5 +1,5 @@
 import express from "express"
-import { adminAuthorization, authentication } from "../middleware/auth.mjs"
+import { adminAuthorization, authentication } from "../middleware/employeeAuth.mjs"
 import {
   forgotPassword,
   getMyProfile, listProfiles,
